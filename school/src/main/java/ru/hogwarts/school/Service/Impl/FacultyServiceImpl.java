@@ -7,7 +7,6 @@ import ru.hogwarts.school.Repositories.FacultyRepository;
 import ru.hogwarts.school.Service.FacultyService;
 
 import java.util.Collection;
-import java.util.Objects;
 
 @Service
 public class FacultyServiceImpl implements FacultyService {
@@ -43,9 +42,7 @@ public class FacultyServiceImpl implements FacultyService {
 
     @Override
     public Faculty getFacultyByColor(String color) {
-        return getAllFaculties().stream()
-                .filter(e -> Objects.equals(e.getColor(), color))
-                .findFirst().get();
+        return facultyRepository.findFacultyByColor(color);
     }
 
     @Override
