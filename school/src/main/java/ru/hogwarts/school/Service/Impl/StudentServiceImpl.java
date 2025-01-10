@@ -28,8 +28,13 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Student editStudent(Student student) {
-        return studentRepository.save(student);
+    public Student editStudent(Long studentId, Student student) {
+        Student studentFromDb = studentRepository.findById(studentId).orElseThrow(IllegalArgumentException::new);
+
+        studentFromDb.setName(student.getName());
+        studentFromDb.setAge(student.getAge());
+
+        return studentRepository.save(studentFromDb);
     }
 
     @Override
@@ -53,7 +58,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Faculty getFacultyByStudentId(long id) {
+    public Faculty findFacultyByStudentId(long id) {
         return getStudent(id).getFaculty();
     }
 }

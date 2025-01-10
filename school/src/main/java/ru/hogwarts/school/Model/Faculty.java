@@ -4,12 +4,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
 public class Faculty {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private String name;
@@ -17,7 +18,7 @@ public class Faculty {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "faculty")
     @JsonIgnore
-    private Collection<Student> students;
+    private List<Student> students;
 
     public Faculty() {
 
