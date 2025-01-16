@@ -10,7 +10,7 @@ import ru.hogwarts.school.Service.FacultyService;
 import java.util.Collection;
 
 @RestController
-@RequestMapping("faculties")
+@RequestMapping("/faculties")
 public class FacultyController {
     public final FacultyService facultyService;
 
@@ -19,7 +19,7 @@ public class FacultyController {
     }
 
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Faculty> getFaculty(@PathVariable long id) {
         Faculty faculty = facultyService.getFaculty(id);
         if (faculty == null) {
@@ -33,7 +33,7 @@ public class FacultyController {
         return facultyService.addFaculty(faculty);
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Faculty> editFaculty(@PathVariable Long id, @RequestBody Faculty faculty) {
         Faculty foundFaculty = facultyService.editFaculty(id, faculty);
         if (foundFaculty == null) {
@@ -42,18 +42,18 @@ public class FacultyController {
         return ResponseEntity.ok(foundFaculty);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteFaculty(@PathVariable(required = false) long id) {
         facultyService.removeFaculty(id);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("all")
+    @GetMapping("/all")
     public Collection<Faculty> getAllFaculties() {
         return facultyService.getAllFaculties();
     }
 
-    @GetMapping("color/{color}")
+    @GetMapping("/color/{color}")
     public ResponseEntity<Faculty> getFacultyByColor(@PathVariable String color) {
         Faculty foundedFaculty = facultyService.findFacultyByColor(color);
         if (foundedFaculty == null) {
@@ -68,7 +68,7 @@ public class FacultyController {
         return facultyService.findFacultyByNameOrColor(name, color);
     }
 
-    @GetMapping("students/{facultyId}")
+    @GetMapping("/students/{facultyId}")
     public Collection<Student> getStudentsByFaculty(@PathVariable Long facultyId) {
         return facultyService.findStudentByFacultyId(facultyId);
     }
