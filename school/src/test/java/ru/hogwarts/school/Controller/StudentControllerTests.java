@@ -13,11 +13,11 @@ import static org.assertj.core.api.Assertions.*;
 import static org.springframework.boot.test.context.SpringBootTest.*;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("test")
+@ActiveProfiles("postgres-test")
 public class StudentControllerTests {
-    private final String name = "Test Student_1";
+    private final String name = "Test Student_2";
     private final int age = 123;
-    private long id = 1;
+    private long id = 999L;
 
     @LocalServerPort
     private int port;
@@ -29,20 +29,13 @@ public class StudentControllerTests {
     private TestRestTemplate restTemplate;
 
     @Test
-    void contextLoads() throws Exception{
-        assertThat(studentController).isNotNull();
-    }
-
-    @Test
     @Sql(scripts = {"/data/cleanUp.sql", "/data/insertData.sql"})
     void shouldPostStudent() {
-        Student student = new Student();
-        student.setName(name);
-        student.setAge(age);
+        Student student = new Student(id, name, age);
 
         System.out.println(port);
-
-        assertThat(this.restTemplate.postForObject("http://localhost:" + port + "/students", student, String.class))
+        System.out.println(student);
+        assertThat(this.restTemplate.postForObject("http://localhost:" + port + "/students", student, Stringz.class))
                 .isNotNull();
     }
 

@@ -1,1 +1,1 @@
-INSERT INTO student (id, name, age) VALUES ('1', 'Test Student_1', '123');
+INSERT INTO student (id, name, age) VALUES (222, 'Test Student_1', 123);
