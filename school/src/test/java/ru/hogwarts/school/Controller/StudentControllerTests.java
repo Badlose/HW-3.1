@@ -35,7 +35,7 @@ public class StudentControllerTests {
 
         System.out.println(port);
         System.out.println(student);
-        assertThat(this.restTemplate.postForObject("http://localhost:" + port + "/students", student, Stringz.class))
+        assertThat(this.restTemplate.postForObject("http://localhost:" + port + "/students", student, String.class))
                 .isNotNull();
     }
 
