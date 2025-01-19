@@ -67,6 +67,7 @@ public class StudentController {
                                                       @RequestParam int max) {
         return studentService.findStudentsAgeBetween(min, max);
     }
+
     @GetMapping("/faculty/{id}")
     public Faculty getFacultyByStudentId(@PathVariable long id) {
         return studentService.findFacultyByStudentId(id);
