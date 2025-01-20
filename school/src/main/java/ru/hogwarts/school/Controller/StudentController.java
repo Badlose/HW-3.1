@@ -33,9 +33,9 @@ public class StudentController {
         return studentService.addStudent(student);
     }
 
-    @PutMapping
-    public ResponseEntity<Student> editStudent(@RequestBody Student student) {
-        Student foundStudent = studentService.editStudent(student);
+    @PutMapping("{id}")
+    public ResponseEntity<Student> editStudent(@PathVariable Long id, @RequestBody Student student) {
+        Student foundStudent = studentService.editStudent(id, student);
         if (foundStudent == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
@@ -68,12 +68,10 @@ public class StudentController {
         return studentService.findStudentsAgeBetween(min, max);
     }
 
+//    vot eto
+
     @GetMapping("faculty/{id}")
-    public ResponseEntity<Faculty> getFacultyByStudentId(@PathVariable long id) {
-        Faculty faculty = studentService.getFacultyByStudentId(id);
-        if (faculty == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(faculty);
+    public Faculty getFacultyByStudentId(@PathVariable long id) {
+        return studentService.findFacultyByStudentId(id);
     }
 }

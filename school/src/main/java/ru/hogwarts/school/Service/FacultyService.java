@@ -11,19 +11,15 @@ public interface FacultyService {
 
     void removeFaculty(long id);
 
-    Faculty editFaculty(Faculty faculty);
+    Faculty editFaculty(Long facultyId, Faculty faculty);
 
     Faculty getFaculty(long id);
 
     Collection<Faculty> getAllFaculties();
 
-    Faculty getFacultyByColor(String color);
-
-    Faculty findFacultyByNameAndColor(String name, String color);
-
-    Faculty findFacultyByName(String name);
+    Faculty findFacultyByNameOrColor(String name, String color);
 
     Faculty findFacultyByColor(String color);
 
-    Collection<Student> getStudentsByFacultyName(String facultyName);
+    Collection<Student> findStudentByFacultyId(Long facultyId);
 }

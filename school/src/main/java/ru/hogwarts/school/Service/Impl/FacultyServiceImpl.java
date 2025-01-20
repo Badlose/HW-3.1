@@ -27,8 +27,13 @@ public class FacultyServiceImpl implements FacultyService {
     }
 
     @Override
-    public Faculty editFaculty(Faculty faculty) {
-        return facultyRepository.save(faculty);
+    public Faculty editFaculty(Long facultyId, Faculty faculty) {
+        Faculty facultyFromDb = facultyRepository.findById(facultyId).orElseThrow(IllegalArgumentException::new);
+
+        facultyFromDb.setName(faculty.getName());
+        facultyFromDb.setColor(faculty.getColor());
+
+        return facultyRepository.save(facultyFromDb);
     }
 
     @Override
@@ -41,18 +46,8 @@ public class FacultyServiceImpl implements FacultyService {
     }
 
     @Override
-    public Faculty getFacultyByColor(String color) {
-        return facultyRepository.findFacultyByColor(color);
-    }
-
-    @Override
-    public Faculty findFacultyByNameAndColor(String name, String color) {
-        return facultyRepository.findFacultyByNameAndColorIgnoreCase(name, color);
-    }
-
-    @Override
-    public Faculty findFacultyByName(String name) {
-        return facultyRepository.findFacultyByNameIgnoreCase(name);
+    public Faculty findFacultyByNameOrColor(String name, String color) {
+        return facultyRepository.findFacultyByNameIgnoreCaseOrColorIgnoreCase(name, color);
     }
 
     @Override
@@ -61,7 +56,7 @@ public class FacultyServiceImpl implements FacultyService {
     }
 
     @Override
-    public Collection<Student> getStudentsByFacultyName(String facultyName) {
-        return findFacultyByName(facultyName).getStudents();
+    public Collection<Student> findStudentByFacultyId(Long facultyId) {
+        return getFaculty(facultyId).getStudents();
     }
 }

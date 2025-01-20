@@ -12,7 +12,7 @@ public interface StudentService {
 
     void removeStudent(long id);
 
-    Student editStudent(Student student);
+    Student editStudent(Long studentId, Student student);
 
     Student getStudent(long id);
 
@@ -22,5 +22,5 @@ public interface StudentService {
 
     Collection<Student> findStudentsAgeBetween(int min, int max);
 
-    Faculty getFacultyByStudentId(long id);
+    Faculty findFacultyByStudentId(long id);
 }
