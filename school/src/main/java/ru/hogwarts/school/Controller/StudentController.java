@@ -11,7 +11,7 @@ import java.util.Collection;
 import java.util.List;
 
 @RestController
-@RequestMapping("students")
+@RequestMapping("/students")
 public class StudentController {
     private final StudentService studentService;
 
@@ -19,7 +19,7 @@ public class StudentController {
         this.studentService = studentService;
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Student> getStudent(@PathVariable long id) {
         Student student = studentService.getStudent(id);
         if (student == null) {
@@ -33,7 +33,7 @@ public class StudentController {
         return studentService.addStudent(student);
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Student> editStudent(@PathVariable Long id, @RequestBody Student student) {
         Student foundStudent = studentService.editStudent(id, student);
         if (foundStudent == null) {
@@ -42,7 +42,7 @@ public class StudentController {
         return ResponseEntity.ok(foundStudent);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteStudent(@PathVariable long id) {
         studentService.removeStudent(id);
         return ResponseEntity.ok().build();
@@ -53,7 +53,7 @@ public class StudentController {
         return studentService.getAllStudents();
     }
 
-    @GetMapping("age/{age}")
+    @GetMapping("/age/{age}")
     public ResponseEntity<Collection<Student>> getStudentsByAge(@PathVariable int age) {
         List<Student> foundedStudents = studentService.getAllStudentsByAge(age);
         if (foundedStudents == null) {
@@ -62,15 +62,13 @@ public class StudentController {
         return ResponseEntity.ok(foundedStudents);
     }
 
-    @GetMapping("age")
-    public Collection<Student> findStudentsAgeBetween(@RequestParam int min,
-                                                      @RequestParam int max) {
+    @GetMapping("/age")
+    public Collection<Student> findStudentsAgeBetween(@RequestParam(value = "min") int min,
+                                                      @RequestParam(value = "max") int max) {
         return studentService.findStudentsAgeBetween(min, max);
     }
 
-//    vot eto
-
-    @GetMapping("faculty/{id}")
+    @GetMapping("/faculty/{id}")
     public Faculty getFacultyByStudentId(@PathVariable long id) {
         return studentService.findFacultyByStudentId(id);
     }

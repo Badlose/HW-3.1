@@ -25,8 +25,8 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
 public class AvatarServiceImpl implements AvatarService {
 
 
-    @Value("avatars")
-    private String avatarsDir;
+    @Value("${path.to.avatars.folder}")
+    private String avatarsDirectory;
     private final StudentService studentService;
     private final AvatarRepository avatarRepository;
 
@@ -38,7 +38,7 @@ public class AvatarServiceImpl implements AvatarService {
     public void uploadAvatar(Long studentId, MultipartFile file) throws IOException {
         Student student = studentService.getStudent(studentId);
 
-        Path filePath = Path.of(avatarsDir, studentId + "." + getExtension(file.getOriginalFilename()));
+        Path filePath = Path.of(avatarsDirectory, "student_Id_" + studentId + "." + getExtension(file.getOriginalFilename()));
         Files.createDirectories(filePath.getParent());
         Files.deleteIfExists(filePath);
 
