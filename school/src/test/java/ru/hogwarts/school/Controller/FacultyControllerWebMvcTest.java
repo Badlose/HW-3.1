@@ -53,6 +53,19 @@ public class FacultyControllerWebMvcTest {
     }
 
     @Test
+    void shouldResponseStatusNotFoundWhenGetFaculty() throws Exception {
+        when(facultyService.getFaculty(facultyId)).thenReturn(null);
+
+        ResultActions perform = mockMvc.perform(get("/faculties/{id}", facultyId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(null)));
+
+        perform
+                .andExpect(status().isNotFound())
+                .andDo(print());
+    }
+
+    @Test
     void shouldPostFaculty() throws Exception {
         Faculty faculty = new Faculty(facultyName, facultyColor);
         Faculty newFaculty = new Faculty("newFaculty", facultyColor);

@@ -37,10 +37,10 @@ public class StudentControllerTests {
     private int port;
 
     @Autowired
-    private StudentRepository studentRepository;
+    private TestRestTemplate restTemplate;
 
     @Autowired
-    private TestRestTemplate restTemplate;
+    private StudentRepository studentRepository;
 
     @Autowired
     private FacultyRepository facultyRepository;
@@ -86,6 +86,21 @@ public class StudentControllerTests {
         assertEquals(actualStudent.getId(), student.getId());
         assertEquals(actualStudent.getName(), student.getName());
         assertEquals(actualStudent.getAge(), student.getAge());
+    }
+
+    @Test
+    void shouldResponseNotFoundWhenGetStudent() {
+        Student student = new Student(name, age);
+        studentRepository.save(student);
+
+        ResponseEntity<Student> studentRepositoryEntity = restTemplate.getForEntity(
+                "http://localhost:" + port + "/students/" + -1, Student.class);
+
+        assertNotNull(studentRepositoryEntity);
+        assertEquals(HttpStatusCode.valueOf(404), studentRepositoryEntity.getStatusCode());
+
+        Student actualStudent = studentRepositoryEntity.getBody();
+        assertNull(actualStudent);
     }
 
     @Test

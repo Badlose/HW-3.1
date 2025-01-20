@@ -77,6 +77,20 @@ public class StudentControllerWebMvcTest {
     }
 
     @Test
+    void shouldResponseStatusNotFoundWhenGetStudent() throws Exception {
+        when(studentService.getStudent(studentId)).thenReturn(null);
+
+        ResultActions perform = mockMvc.perform(get("/students/{id}", studentId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(null)));
+
+        perform
+                .andExpect(status().isNotFound())
+                .andDo(print());
+
+    }
+
+    @Test
     void shouldPutStudent() throws Exception {
         Student student = new Student(studentName, studentAge);
         Student newStudent = new Student(studentName, studentAge + 2);
