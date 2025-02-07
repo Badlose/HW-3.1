@@ -93,6 +93,22 @@ public class FacultyControllerTest {
     }
 
     @Test
+    void shouldResponseStatusNotFoundWhenGetFaculty() {
+
+        Faculty faculty = new Faculty(facultyName, facultyColor);
+        facultyRepository.save(faculty);
+
+        ResponseEntity<Faculty> facultyResponseEntity = restTemplate.getForEntity(
+                "http://localhost:" + port + "/faculties/" + -1, Faculty.class);
+
+        assertNotNull(facultyResponseEntity);
+        assertEquals(HttpStatusCode.valueOf(404), facultyResponseEntity.getStatusCode());
+
+        Faculty actualFaculty = facultyResponseEntity.getBody();
+        assertNull(actualFaculty);
+    }
+
+    @Test
     void shouldPutFaculty() {
 
         Faculty faculty = new Faculty(facultyName, facultyColor);
