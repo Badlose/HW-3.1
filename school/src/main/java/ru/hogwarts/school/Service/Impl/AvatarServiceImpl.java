@@ -2,6 +2,8 @@ package ru.hogwarts.school.Service.Impl;
 
 import jakarta.transaction.Transactional;
 import org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -19,7 +21,6 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collection;
-import java.util.List;
 
 import static java.nio.file.StandardOpenOption.CREATE_NEW;
 
@@ -38,7 +39,10 @@ public class AvatarServiceImpl implements AvatarService {
         this.avatarRepository = avatarRepository;
     }
 
+    private static final Logger logger = LoggerFactory.getLogger(AvatarServiceImpl.class);
+
     public void uploadAvatar(Long studentId, MultipartFile file) throws IOException {
+        logger.info("Uploading avatar");
         Student student = studentService.getStudent(studentId);
 
         Path filePath = Path.of(avatarsDirectory, "student_Id_" + studentId + "." + getExtension(file.getOriginalFilename()));
@@ -61,15 +65,18 @@ public class AvatarServiceImpl implements AvatarService {
         avatar.setPreview(generateImagePreview(filePath));
 
         avatarRepository.save(avatar);
+        logger.info("The avatar was successfully added");
     }
 
     @Override
     public Avatar findAvatar(Long studentId) {
+        logger.info("Tying ti find avatar by student id: {}", studentId);
         return avatarRepository.findByStudentId(studentId).orElse(new Avatar());
     }
 
     @Override
     public Collection<Avatar> getAvatarsPageByPage(Integer pageNumber, Integer pageSize) {
+        logger.info("Getting avatars page by page");
         PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize);
         return avatarRepository.findAll(pageRequest).getContent();
     }
