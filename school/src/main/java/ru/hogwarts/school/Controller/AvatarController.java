@@ -65,7 +65,7 @@ public class AvatarController {
         }
     }
 
-    @GetMapping("pagination")
+    @GetMapping("/pagination")
     public Collection<Avatar> getAvatarsPageByPage(@RequestParam("page") Integer pageNumber,
                                                    @RequestParam("size") Integer pageSize) {
         return avatarService.getAvatarsPageByPage(pageNumber, pageSize);
