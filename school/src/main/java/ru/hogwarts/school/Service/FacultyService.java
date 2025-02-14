@@ -22,4 +22,7 @@ public interface FacultyService {
     Faculty findFacultyByColor(String color);
 
     Collection<Student> findStudentByFacultyId(Long facultyId);
+
+    String getLongestFacultyName();
+
 }
