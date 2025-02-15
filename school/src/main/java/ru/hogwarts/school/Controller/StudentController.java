@@ -98,4 +98,14 @@ public class StudentController {
         return studentService.getStudentsAverageAgeByUsingStream();
     }
 
+
+    @GetMapping("/print-parallel")
+    public void getStudentsNameByUsingStream() {
+        studentService.getStudentsNameByUsingStream();
+    }
+
+    @GetMapping("/print-synchronized")
+    public void getStudentsNameBySynchronizedStream() {
+        studentService.getStudentsNameBySynchronizedStream();
+    }
 }
