@@ -33,4 +33,9 @@ public interface StudentService {
     List<String> getSortedStudentsNameStartsWithA();
 
     Double getStudentsAverageAgeByUsingStream();
+
+    void getStudentsNameByUsingStream();
+
+    void getStudentsNameBySynchronizedStream();
+
 }
