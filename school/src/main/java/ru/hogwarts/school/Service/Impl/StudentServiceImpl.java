@@ -16,6 +16,8 @@ import java.util.stream.Collectors;
 @Service
 public class StudentServiceImpl implements StudentService {
     private final StudentRepository studentRepository;
+    private static int count = 0;
+    private static int countSynchronized = 0;
 
     public StudentServiceImpl(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
@@ -112,5 +114,63 @@ public class StudentServiceImpl implements StudentService {
     public Double getStudentsAverageAgeByUsingStream() {
         return studentRepository.findAll().stream()
                 .collect(Collectors.averagingInt(Student::getAge));
+    }
+
+    @Override
+    public void getStudentsNameByUsingStream() {
+        List<String> studentsName = studentRepository.findAll().stream()
+                .map(Student::getName)
+                .toList();
+
+        new Thread(()-> {
+            System.out.println("Thread #1, student 1 " + studentsName.get(count));
+            count++;
+            System.out.println("Thread #1, student 2 " + studentsName.get(count));
+            count++;
+        }).start();
+
+        new Thread(()-> {
+            System.out.println("Thread #2, student 3 " + studentsName.get(count));
+            count++;
+            System.out.println("Thread #2, student 4 " + studentsName.get(count));
+            count++;
+        }).start();
+
+        new Thread(()-> {
+            System.out.println("Thread #3. student 5 " + studentsName.get(count));
+            count++;
+            System.out.println("Thread #3, student 6 " + studentsName.get(count));
+            count++;
+        }).start();
+
+    }
+
+    @Override
+    public void getStudentsNameBySynchronizedStream() {
+        new Thread(()-> {
+            soutStudentsNames();
+            soutStudentsNames();
+        }).start();
+
+        new Thread(()-> {
+            soutStudentsNames();
+            soutStudentsNames();
+        }).start();
+
+        new Thread(()-> {
+            soutStudentsNames();
+            soutStudentsNames();
+        }).start();
+    }
+
+    private void soutStudentsNames() {
+        List<String> studentsName = studentRepository.findAll().stream()
+                .map(Student::getName)
+                .toList();
+
+        synchronized (StudentServiceImpl.class) {
+            System.out.println(studentsName.get(countSynchronized));
+            countSynchronized++;
+        }
     }
 }
